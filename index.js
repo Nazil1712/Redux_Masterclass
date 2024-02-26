@@ -35,7 +35,7 @@ function reducer(state={amount:1},action){
 }
 
 
-// global state
+/* // global state
 console.log(store.getState())
 
 
@@ -46,4 +46,14 @@ console.log(store.getState())
 store.dispatch({type:'increment'})
 
 
-console.log(store.getState())
+console.log(store.getState()) */
+
+
+// Now whenever value of state changes this subscribe will be called
+store.subscribe(()=>{
+    console.log(store.getState())
+})
+
+setInterval(()=>{
+    store.dispatch({type:'increment'})
+}, 2000)
