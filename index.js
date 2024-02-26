@@ -3,7 +3,7 @@ import {createStore} from "redux";
 
 // store
 const store = createStore(reducer);
-
+const history = [];
 
 // reducer
 function reducer(state={amount:1},action){
@@ -17,7 +17,7 @@ function reducer(state={amount:1},action){
         */
 
         // So correct way to return update state is
-        return {amount : state.amount + 1}
+        // return {amount : state.amount + 1}
 
         /* 
             ❌
@@ -25,11 +25,12 @@ function reducer(state={amount:1},action){
             means it is bad practice to mutate the state directly,
             so we can not do something like ,
 
-            state.amount = state.amount + 1;
-            return state;
-
             because this changes/mutates the state directly
         */
+
+
+        state.amount = state.amount + 1;
+        return state;
     }
     return state;
 }
@@ -51,7 +52,8 @@ console.log(store.getState()) */
 
 // Now whenever value of state changes this subscribe will be called
 store.subscribe(()=>{
-    console.log(store.getState())
+    history.push(store.getState())
+    console.log(history)
 })
 
 setInterval(()=>{
