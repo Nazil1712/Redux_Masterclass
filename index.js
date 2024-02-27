@@ -21,8 +21,21 @@ function reducer(state={amount:1},action){
 }
 
 
+// Action creator
+function increment() {
+    return {type : 'increment'}
+}
+
+function decrement() {
+    return {type : 'decrement'}
+}
+
+function incrementByAmount(value) {
+    return {type : 'incrementByAmount', payload : value}
+}
+
 setInterval(()=>{
-    // store.dispatch({type:'increment'})
-    // store.dispatch({type: 'decrement'})
-    store.dispatch({type: 'incrementByAmount', payload : 4})
+    // store.dispatch(increment());
+    // store.dispatch(decrement());
+    store.dispatch(incrementByAmount(10));
 }, 2000)
