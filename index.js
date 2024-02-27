@@ -1,12 +1,12 @@
 import {createStore , applyMiddleware} from "redux";
 import logger from "redux-logger";
-
+import axios from "axios";
 
 // action name constants
 const inc = 'increment';
 const dec = 'decrement';
 const incByAmt =  'incrementByAmount';
-
+const init = 'init';
 
 // store
 // logger.default is just to remove unknown error
@@ -15,20 +15,29 @@ const history = []
 
 // reducer
 function reducer(state={amount:1},action){
-    if(action.type === inc) {
-        return {amount : state.amount + 1}
-    }
-    if(action.type === dec) {
-        return {amount : state.amount - 1}
-    }
-    if(action.type === incByAmt) {
-        return {amount : state.amount + action.payload}
-    }
-    return state;
+    switch(action.type) {
+        case init:
+            return {amount : action.payload}
+
+        case inc:
+            return {amount : state.amount + 1};
+        
+        case dec:
+            return {amount: state.amount - 1};
+
+        case incByAmt:
+            return {amount: state.amount + action.payload}
+
+        default:
+            return state;
+    }   
 }
 
 
 // Action creator
+function InitUser(value) {
+    return {type : init, payload:value}
+}   
 function increment() {
     return {type:inc}
 }
@@ -44,5 +53,6 @@ function incrementByAmount(value) {
 setInterval(()=>{
     // store.dispatch(increment());
     // store.dispatch(decrement());
-    store.dispatch(incrementByAmount(10));
+    // store.dispatch(incrementByAmount(10));
+    store.dispatch(InitUser(500))
 }, 2000)
