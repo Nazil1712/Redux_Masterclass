@@ -44,9 +44,11 @@ getUser() */
 
 
 // Async Action creator
-async function getUser(dispatch,getState) {
-    const {data} = await axios.get('http://localhost:3000/accounts/1')
-    dispatch(initUser(data.amount))
+function getUser(id) {
+    return async(dispatch,setState)=>{
+        const {data} = await axios.get(`http://localhost:3000/accounts/${id}`)
+        dispatch(initUser(data.amount))
+    }
 }   
 
 
@@ -67,9 +69,9 @@ function incrementByAmount(value) {
     return {type : incByAmt, payload : value}
 }
 
-setInterval(()=>{
+// setInterval(()=>{
 //     // store.dispatch(increment());
 //     // store.dispatch(decrement());
 //     // store.dispatch(incrementByAmount(10));
-    store.dispatch(getUser)
-}, 2000)
+    store.dispatch(getUser(6))
+// }, 2000)
