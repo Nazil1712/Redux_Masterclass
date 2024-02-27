@@ -1,6 +1,7 @@
 import {createStore , applyMiddleware} from "redux";
 import logger from "redux-logger";
 import axios from "axios";
+import { thunk }  from "redux-thunk";
 
 // action name constants
 const inc = 'increment';
@@ -10,7 +11,7 @@ const init = 'init';
 
 // store
 // logger.default is just to remove unknown error
-const store = createStore(reducer, applyMiddleware(logger.default));
+const store = createStore(reducer, applyMiddleware(logger.default, thunk));
 const history = []
 
 // reducer
@@ -33,19 +34,20 @@ function reducer(state={amount:1},action){
     }   
 }
 
-
-// Async API call
-const getUser = async()=>{
-    const {data} = await axios.get('http://localhost:3000/account/1')
-    return data.amount
+// Async API Call
+/* const getUser = async() =>{
+    const {data} = await axios.get('http://localhost:3000/accounts/1');
+    console.log(data)
 }
 
+getUser() */
 
 // Action creator
-function InitUser() {
-    const value = getUser()
-    return {type : init, payload:value}
+async function initUser(dispatch,getState) {
+    const {data} = await axios.get('http://localhost:3000/accounts/1')
+    dispatch({type : init, payload:data.amount})
 }   
+
 function increment() {
     return {type:inc}
 }
@@ -58,9 +60,9 @@ function incrementByAmount(value) {
     return {type : incByAmt, payload : value}
 }
 
-// setInterval(()=>{
+setInterval(()=>{
 //     // store.dispatch(increment());
 //     // store.dispatch(decrement());
 //     // store.dispatch(incrementByAmount(10));
-    store.dispatch(InitUser())
-// }, 2000)
+    store.dispatch(initUser)
+}, 2000)
