@@ -42,11 +42,18 @@ function reducer(state={amount:1},action){
 
 getUser() */
 
-// Action creator
-async function initUser(dispatch,getState) {
+
+// Async Action creator
+async function getUser(dispatch,getState) {
     const {data} = await axios.get('http://localhost:3000/accounts/1')
-    dispatch({type : init, payload:data.amount})
+    dispatch(initUser(data.amount))
 }   
+
+
+// Action creator
+function initUser(value) {
+    return {type:init, payload : value}
+}
 
 function increment() {
     return {type:inc}
@@ -64,5 +71,5 @@ setInterval(()=>{
 //     // store.dispatch(increment());
 //     // store.dispatch(decrement());
 //     // store.dispatch(incrementByAmount(10));
-    store.dispatch(initUser)
+    store.dispatch(getUser)
 }, 2000)
