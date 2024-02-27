@@ -16,21 +16,21 @@ function reducer(state={amount:1},action){
                 but our state is {amount:1}
         */
 
-        // So correct way to return update state is
-        // return {amount : state.amount + 1}
-
-        /* 
+                /* 
             ❌
             As we know state are immutable (should be immutable),
             means it is bad practice to mutate the state directly,
             so we can not do something like ,
 
-            because this changes/mutates the state directly
-        */
+            state.amount = state.amount + 1;
+            return state;
 
+            because this changes/mutates the state directly,
+            This will create bugs/errors in the future
+        */   
 
-        state.amount = state.amount + 1;
-        return state;
+        // So correct way to return updated state is
+        return {amount : state.amount + 1}
     }
     return state;
 }
