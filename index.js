@@ -34,8 +34,16 @@ function reducer(state={amount:1},action){
 }
 
 
+// Async API call
+const getUser = async()=>{
+    const {data} = await axios.get('http://localhost:3000/account/1')
+    return data.amount
+}
+
+
 // Action creator
-function InitUser(value) {
+function InitUser() {
+    const value = getUser()
     return {type : init, payload:value}
 }   
 function increment() {
@@ -50,9 +58,9 @@ function incrementByAmount(value) {
     return {type : incByAmt, payload : value}
 }
 
-setInterval(()=>{
-    // store.dispatch(increment());
-    // store.dispatch(decrement());
-    // store.dispatch(incrementByAmount(10));
-    store.dispatch(InitUser(500))
-}, 2000)
+// setInterval(()=>{
+//     // store.dispatch(increment());
+//     // store.dispatch(decrement());
+//     // store.dispatch(incrementByAmount(10));
+    store.dispatch(InitUser())
+// }, 2000)
