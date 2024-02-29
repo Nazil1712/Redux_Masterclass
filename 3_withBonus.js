@@ -15,7 +15,7 @@ const store = createStore(combineReducers({
     account : accountsReducer,
     bonus : bonusReducer
 }), applyMiddleware(logger.default, thunk));
-const history = []
+const history = [];
 
 // reducer
 function accountsReducer(state={amount:1},action){
@@ -39,19 +39,13 @@ function accountsReducer(state={amount:1},action){
 
 function bonusReducer(state={points:0},action) {
     switch(action.type){
-        
-        /* 
-            In this action both reducer's state variable's value will be changed
-            simultaneously beacuse both have same name of action
-            which you may want OR may not.
-        */ 
-
-        case inc:
-            return {points : state.points + 1}
-
-        case dec:
-            return {points : state.points - 1}
-
+        case incByAmt:
+            if(action.payload >= 1000) {
+                return {points : state.points + 1}
+            }
+            /* else 
+                return state 
+            */
         default : 
             return state;
     }
@@ -83,4 +77,4 @@ function incrementByAmount(value) {
     return {type : incByAmt, payload : value}
 }
 
-store.dispatch(decrement())
+store.dispatch(incrementByAmount(1000))
