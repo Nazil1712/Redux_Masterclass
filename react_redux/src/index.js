@@ -1,23 +1,29 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import {createStore , applyMiddleware , combineReducers} from "redux";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { createStore, applyMiddleware, combineReducers } from "redux";
 import logger from "redux-logger";
-import { thunk }  from "redux-thunk";
-import accountsReducer from './reducers/accountsReducer';
-import bonusReducer from './reducers/bonusReducer';
+import { thunk } from "redux-thunk";
+import accountsReducer from "./reducers/accountsReducer";
+import bonusReducer from "./reducers/bonusReducer";
+import { Provider } from "react-redux";
 
-const store = createStore(combineReducers({
-  account : accountsReducer,
-  bonus : bonusReducer
-}), applyMiddleware(logger, thunk));
+const store = createStore(
+  combineReducers({
+    account: accountsReducer,
+    bonus: bonusReducer,
+  }),
+  applyMiddleware(logger, thunk)
+);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App store={store}/>
+    <Provider store={store}> 
+      <App />
+    </Provider>
   </React.StrictMode>
 );
 
