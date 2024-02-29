@@ -4,10 +4,12 @@ import axios from "axios";
 import { thunk }  from "redux-thunk";
 
 // action name constants
-const inc = 'increment';
-const dec = 'decrement';
-const incByAmt =  'incrementByAmount';
-const init = 'init';
+const inc = 'accounts/increment';
+const dec = 'accounts/decrement';
+const incByAmt =  'accounts/incrementByAmount';
+const init = 'accounts/init';
+
+const incBonus = 'bonus/increment'
 
 // store
 // logger.default is just to remove unknown error
@@ -46,13 +48,17 @@ function bonusReducer(state={points:0},action) {
             /* else 
                 return state 
             */
+
+        case incBonus:
+            return {points : state.points + 1}
+
         default : 
             return state;
     }
 }
 
 // Async Action creator
-function getUser(id) {
+function getUserAccount(id) {
     return async(dispatch,setState)=>{
         const {data} = await axios.get(`http://localhost:3000/accounts/${id}`)
         dispatch(initUser(data.amount))
@@ -61,6 +67,7 @@ function getUser(id) {
 
 
 // Action creator
+// 1) Action creators for accounts
 function initUser(value) {
     return {type:init, payload : value}
 }
@@ -77,4 +84,12 @@ function incrementByAmount(value) {
     return {type : incByAmt, payload : value}
 }
 
-store.dispatch(incrementByAmount(1000))
+
+// 2) Action creators for bonus
+function incrementBonus() {
+    return {type:incBonus}
+}
+
+setInterval(()=>{    
+    store.dispatch(incrementBonus())
+},2000)
