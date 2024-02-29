@@ -48,31 +48,7 @@ function accountsReducer(state={amount:1},action){
     }   
 }
 
-function bonusReducer(state={points:0},action) {
-    switch(action.type){
-        case incByAmt:
-            if(action.payload >= 1000) {
-                return {points : state.points + 1}
-            }
-            /* else 
-                return state 
-            */
 
-        case getUsrFulfilled:
-            if(action.payload >= 1000) {
-                return {points : state.points + 1}
-            }
-            /* else 
-                return state 
-            */
-
-        case incBonus:
-            return {points : state.points + 1}
-
-        default : 
-            return state;
-    }
-}
 
 // Async Action creator
 function getUserAccount(id) {
