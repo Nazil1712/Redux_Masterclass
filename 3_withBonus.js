@@ -4,10 +4,13 @@ import axios from "axios";
 import { thunk }  from "redux-thunk";
 
 // action name constants
+// const init = 'accounts/init';
 const inc = 'accounts/increment';
 const dec = 'accounts/decrement';
 const incByAmt =  'accounts/incrementByAmount';
-const init = 'accounts/init';
+const getUsrPending = 'accounts/getUser/pending';
+const getUsrFulfilled = 'accounts/getUser/fulfilled';
+const getUsrRejected = 'accounts/getUser/rejected';
 
 const incBonus = 'bonus/increment'
 
@@ -22,8 +25,14 @@ const history = [];
 // reducer
 function accountsReducer(state={amount:1},action){
     switch(action.type) {
-        case init:
-            return {amount : action.payload}
+        case getUsrFulfilled:
+            return {amount : action.payload , pending:false}
+
+        case getUsrPending:
+            return {...state , pending:true}
+
+        case getUsrRejected:
+            return {...state, error: action.error , pending:false}
 
         case inc:
             return {amount : state.amount + 1};
@@ -49,6 +58,14 @@ function bonusReducer(state={points:0},action) {
                 return state 
             */
 
+        case getUsrFulfilled:
+            if(action.payload >= 1000) {
+                return {points : state.points + 1}
+            }
+            /* else 
+                return state 
+            */
+
         case incBonus:
             return {points : state.points + 1}
 
@@ -60,16 +77,29 @@ function bonusReducer(state={points:0},action) {
 // Async Action creator
 function getUserAccount(id) {
     return async(dispatch,setState)=>{
-        const {data} = await axios.get(`http://localhost:3000/accounts/${id}`)
-        dispatch(initUser(data.amount))
+        try{
+            dispatch(getUserAccountPending())
+            const {data} = await axios.get(`http://localhost:3000/accounts/${id}`)
+            dispatch(getUserAccountFulfilled(data.amount))
+        }catch(error) {
+            dispatch(getUserAccountRejected(error.message))
+        }
     }
 }   
 
 
 // Action creator
 // 1) Action creators for accounts
-function initUser(value) {
-    return {type:init, payload : value}
+function getUserAccountFulfilled(value) {
+    return {type:getUsrFulfilled, payload:value}
+}
+
+function getUserAccountPending() {
+    return {type: getUsrPending}
+}
+
+function getUserAccountRejected(error) {
+    return {type: getUsrRejected , error : error}
 }
 
 function increment() {
@@ -90,6 +120,4 @@ function incrementBonus() {
     return {type:incBonus}
 }
 
-setInterval(()=>{    
-    store.dispatch(incrementBonus())
-},2000)
+store.dispatch(getUserAccount(6))
