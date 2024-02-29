@@ -114,7 +114,6 @@ function incrementByAmount(value) {
     return {type : incByAmt, payload : value}
 }
 
-
 // 2) Action creators for bonus
 function incrementBonus() {
     return {type:incBonus}
