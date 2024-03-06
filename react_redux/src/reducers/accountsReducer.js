@@ -1,4 +1,4 @@
-import { getUsrFulfilled, getUsrPending, getUsrRejected, inc, dec, incByAmt } from "../actions";
+import { getUsrFulfilled, getUsrPending, getUsrRejected, inc, dec, incByAmt, decByAmt } from "../actions";
 
 export default function accountsReducer(state={amount:1},action){
     switch(action.type) {
@@ -19,6 +19,14 @@ export default function accountsReducer(state={amount:1},action){
 
         case incByAmt:
             return {amount: state.amount + action.payload}
+
+        case decByAmt:
+            if(state.amount - action.payload > 0) {
+                return {amount: state.amount - action.payload}
+            }
+            else{
+                return {...state, error:"Amount can't be negative"}
+            }
 
         default:
             return state;

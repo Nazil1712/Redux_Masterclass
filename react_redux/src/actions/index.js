@@ -3,6 +3,7 @@ import axios from "axios";
 export const inc = 'accounts/increment';
 export const dec = 'accounts/decrement';
 export const incByAmt =  'accounts/incrementByAmount';
+export const decByAmt = 'accounts/decrementByAmount';
 export const getUsrPending = 'accounts/getUser/pending';
 export const getUsrFulfilled = 'accounts/getUser/fulfilled';
 export const getUsrRejected = 'accounts/getUser/rejected';
@@ -47,6 +48,10 @@ export function decrement() {
 
 export function incrementByAmount(value) {
     return {type : incByAmt, payload : value}
+}
+
+export function decrementByAmount(value) {
+    return {type: decByAmt, payload:value}
 }
 
 // 2) Action creators for bonus
