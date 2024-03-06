@@ -2,7 +2,7 @@ import { incrementBonus } from "../actions";
 import { useDispatch, useSelector } from "react-redux";
 
 function Bonus() {
-  const points = useSelector((state)=>state.bonus.points)
+  const points = useSelector((state)=>state.account.amount)
   const dispatch = useDispatch();
 
   return (

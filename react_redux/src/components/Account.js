@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { increment, decrement, incrementByAmount } from "../actions";
+import { increment, decrement, incrementByAmount, getUserAccount} from "../actions";
 import { useDispatch, useSelector } from "react-redux";
 
 function Account({store}) {
@@ -19,6 +19,12 @@ function Account({store}) {
         <input type="text" onChange={(e) => setValue(+e.target.value)}></input>
         <button onClick={() => dispatch(incrementByAmount(value))}>
           Increment By {value} +
+        </button>
+
+
+        {/* Initialize User */}
+        <button onClick={() => dispatch(getUserAccount(178))}>
+          Init User
         </button>
       </div>
     </div>

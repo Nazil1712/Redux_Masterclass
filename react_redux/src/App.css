@@ -43,3 +43,8 @@ input {
 p {
   color: white;
 }
+
+
+.error {
+  color: red;
+}
