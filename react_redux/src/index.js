@@ -3,25 +3,22 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { createStore, applyMiddleware, combineReducers } from "redux";
-import logger from "redux-logger";
-import { thunk } from "redux-thunk";
-import accountsReducer from "./reducers/accountsReducer";
-import bonusReducer from "./reducers/bonusReducer";
+import { configureStore } from "@reduxjs/toolkit";
+import accountReducer from "./slices/accountSlice";
+import bonusReducer from "./slices/bonusSlice";
 import { Provider } from "react-redux";
 
-const store = createStore(
-  combineReducers({
-    account: accountsReducer,
+const store = configureStore({
+  reducer: {
+    account: accountReducer,
     bonus: bonusReducer,
-  }),
-  applyMiddleware(logger, thunk)
-);
+  },
+});
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Provider store={store}> 
+    <Provider store={store}>
       <App />
     </Provider>
   </React.StrictMode>
