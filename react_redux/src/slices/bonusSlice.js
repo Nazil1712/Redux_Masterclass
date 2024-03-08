@@ -21,7 +21,7 @@ export const bonusSlice = createSlice({
     },
     extraReducers: (builder)=>{
         builder.addCase(incrementByAmount,(state,action)=>{
-            if(action.payload > 1000){
+            if(action.payload >= 1000){
                 state.points += 1
             }
             else{
