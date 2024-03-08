@@ -7,10 +7,19 @@ export const AdminApi = createApi({
   endpoints: (builder) => ({
     getAccounts: builder.query({
       query: () => `accounts`,
+      providesTags: ['accounts']
     }),
+    addAccount : builder.mutation({
+        query : (amount,id)=>({
+            url : 'accounts',
+            method : 'POST',
+            body : {amount,id}
+        }),
+        invalidatesTags: ['accounts']
+    })
   }),
 })
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetAccountsQuery } = AdminApi
+export const { useGetAccountsQuery , useAddAccountMutation } = AdminApi

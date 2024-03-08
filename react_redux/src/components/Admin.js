@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { increment } from '../slices/bonusSlice';
-import { useGetAccountsQuery } from '../api/adminSlice';
+import { useAddAccountMutation, useGetAccountsQuery } from '../api/adminSlice';
 
 function Admin() {
 
   const {data, error, isLoading} = useGetAccountsQuery();
+  const [addAccount,response] = useAddAccountMutation();
 
   return (
     <div className="card">
@@ -15,7 +16,8 @@ function Admin() {
         </h4>
         
         {data && data.map((v,i,arr)=><p>{v.id} : {v.amount}</p>)}
-        {/* <button onClick={()=>{dispatch(increment())}}>Increment +</button> */}
+
+        <button onClick={()=>addAccount(101,data.length+1)}>Add Account</button>
       </div>
     </div>
   );
