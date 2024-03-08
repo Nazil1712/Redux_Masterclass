@@ -28,6 +28,14 @@ export const accountSlice = createSlice({
     incrementByAmount: (state, action) => {
       state.amount += action.payload;
     },
+    decrementByAmount: (state,action) => {
+      if(state.amount - action.payload >= 0) {
+        state.amount -= action.payload
+      }
+      else{
+        state.error = "Amount Can't be Negative"
+      }
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -46,6 +54,6 @@ export const accountSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = accountSlice.actions;
+export const { increment, decrement, incrementByAmount, decrementByAmount } = accountSlice.actions;
 
 export default accountSlice.reducer;

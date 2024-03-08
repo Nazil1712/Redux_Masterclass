@@ -16,7 +16,7 @@ function App() {
       {account.pending ? (
         <h3>Loading....</h3>
       ) : account.error ? (
-        <h3 className="error">Error!!!!!!, {account.error.message}</h3>
+        <h3 className="error">Error!!!!!!, {account.error}</h3>
       ) : (
         <h3>Current Amount : {amount}</h3>
       )}
