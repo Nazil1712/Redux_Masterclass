@@ -26,6 +26,7 @@ function App() {
       <Account></Account>
       <Bonus></Bonus>
       <Reward />
+      
     </div>
   );
 }
