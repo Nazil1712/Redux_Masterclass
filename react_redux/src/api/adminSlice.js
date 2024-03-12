@@ -7,7 +7,8 @@ export const AdminApi = createApi({
   endpoints: (builder) => ({
     getAccounts: builder.query({
       query: () => `accounts`,
-      providesTags: ['accounts']
+      providesTags: ['accounts'],
+      transformResponse : (response)=>response.sort((a,b)=>b.id - a.id)
     }),
 
     addAccount : builder.mutation({
@@ -29,6 +30,7 @@ export const AdminApi = createApi({
       query: ({id,amount})=>({
         url : `accounts/${id}`,
         method: 'PUT',
+        // PATCH Request Produces error hence using PUT request
         body : {amount}
       }),
       invalidatesTags: ['accounts']
