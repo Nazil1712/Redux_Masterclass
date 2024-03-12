@@ -5,12 +5,39 @@ import {
   useAddAccountMutation,
   useDeleteAccountMutation,
   useGetAccountsQuery,
+  useUpdateAccountMutation,
 } from "../api/adminSlice";
 
 function Admin() {
-  const { data, error, isLoading } = useGetAccountsQuery();
+  const [id, setId] = useState(0);
+  const [amount, setAmount] = useState(0);
+
+  const { data, error, isLoading , isSuccess} = useGetAccountsQuery();
   const [addAccount, responseOfAdd] = useAddAccountMutation();
   const [deleteAccount, responseOfDelete] = useDeleteAccountMutation();
+  const [updateAccount, responseOfUpdate] = useUpdateAccountMutation();
+
+
+  const handleInputId = (e)=>{
+    const value = parseInt(e.target.value,10);
+    if(!isNaN(value)) {
+      setId(value)
+    }
+  }
+
+
+  const handleInputAmount = (e) =>{
+    const value = parseInt(e.target.value,10);
+    if(!isNaN(value)) {
+      setAmount(value)
+    }
+  }
+
+
+  const handleAddAccount = () =>{
+    const value = toString(id);
+      addAccount(amount,value)
+    }
 
   return (
     <div className="card">
@@ -19,15 +46,19 @@ function Admin() {
           <b>Admin Component</b>
         </h4>
 
-        {data &&
+        {isLoading? <p>Loading.......</p>:null}
+        { !isLoading && data &&
           data.map((v, i, arr) => (
             <p>
               {v.id} : {v.amount}{" "}
               <button onClick={() => deleteAccount(v.id)}>Delete</button>
+              <button onClick={()=>updateAccount({id:v.id,amount:777})}>Update</button>
             </p>
           ))}
 
-        <button onClick={() => addAccount(101, data.length + 1)}>
+        <input placeholder="Add Account ID" onChange={handleInputId}></input>
+        <input placeholder="Add Account Amount" onChange={handleInputAmount}></input>
+        <button onClick={handleAddAccount}>
           Add Account
         </button>
       </div>
